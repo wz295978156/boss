@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="boss-company" />
+        <module name="boss-util" />
+        <module name="boss-interview" />
+        <module name="boss-send" />
+        <module name="boss-resume" />
+        <module name="boss-es" />
+        <module name="boss-config" />
+        <module name="boss-user" />
+        <module name="boss-zuul" />
+        <module name="boss-pojo" />
+        <module name="boss-position" />
+        <module name="boss-eureka" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="boss-company" options="-parameters" />
+      <module name="boss-config" options="-parameters" />
+      <module name="boss-es" options="-parameters" />
+      <module name="boss-eureka" options="-parameters" />
+      <module name="boss-interview" options="-parameters" />
+      <module name="boss-parent" options="-parameters" />
+      <module name="boss-pojo" options="-parameters" />
+      <module name="boss-position" options="-parameters" />
+      <module name="boss-resume" options="-parameters" />
+      <module name="boss-send" options="-parameters" />
+      <module name="boss-user" options="-parameters" />
+      <module name="boss-util" options="-parameters" />
+      <module name="boss-zuul" options="-parameters" />
+    </option>
+  </component>
+</project>
