@@ -17,4 +17,7 @@ eureka:
 feign:
   hystrix:
     enabled: true
+mybatis:
+  type-aliases-package: com.boss.pojo
+  mapper-locations: classpath:mapper/*Mapper.xml
 

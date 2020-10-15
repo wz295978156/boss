@@ -1,8 +1,8 @@
 server:
-  port: 8181
+  port: 8182
 spring:
   application:
-    name: boss-resume
+    name: boss-resume01
   cloud:
     config:
       discovery:
@@ -17,7 +17,4 @@ eureka:
 feign:
   hystrix:
     enabled: true
-mybatis:
-  type-aliases-package: com.boss.pojo
-  mapper-locations: classpath:mapper/*Mapper.xml
 

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+  mybatis的第二种事件方式
+    xml + 接口的方式
+      特点：xml中的namespace必须为接口的全路径
+        xml中的每个节点的id必须为接口的方法名
+-->
+<mapper namespace="com.boss.dao.UserResumeDao">
+	<sql id="resume">
+	user_email userEmail,
+	user_sex userSex,
+	user_identity userIdentity,
+	user_avatar userAvatar,
+	user_birthday userBirthday,
+	user_politics_status userPoliticsStatus,
+	user_job_state userJobStare,
+	user_create_time userCreateTime,
+	user_address userAddress,
+	user_tel userTel,
+	password,
+	username,
+	company_name companyName,
+	company_shortname companyShortname,
+	company_address companyAddress,
+	company_profile companyProfile,
+	company_boss companyBoss,
+	company_registered_capital companyRegisteredCapital,
+	company_date companyDate,
+	company_img companyImg,
+	company_code companyCode,
+	company_business_scope companyBusinessScope,
+	company_status companyStatus,
+	company_vcr companyVcr,
+	company_scale companyScale,
+	company_financing companyFinancing,
+	company_updatetime companyUpdatetime,
+	jobtabel_secondtype jobtableSecondtype,
+	jobimg jobImg,
+	resumeeducation_school resumeeducationSchool,
+	resumeeducation_background resumeeducationBackground,
+	resumeeducation_major resumeeducationMajor,
+	resumeeducation_lasttime resumeeducationLasttime,
+	resumeeducation_experience resumeeducationExperience,
+	resumeeducation_beforetime resumeeducationBeforetime,
+	intention_status intentionStatus,
+	intention_position intentionPosition,
+	intention_business intentionBusiness,
+	intention_city intentionCity,
+	intention_personally intentionPersonally,
+	workexperience_company workExperienceCompany,
+	workexperience_industry workExperienceIndustry,
+	workexperience_workingtimeend workExperienceWorkingTimeEnd,
+	workexperience_workingtimebegin workExperienceWorkingTimeBegin,
+	workexperience_type workExperienceType,
+	workexperience_department workExperienceDepartment,
+	workexperience_content workExperienceContent,
+	workexperience_performance workExperiencePerformance,
+	projectexperience_name projectExperienceName,
+	projectexperience_role projectExperienceRole,
+	projectexperience_lasttime projectExperienceLastTime,
+	projectexperience_describe projectExperienceDescribe,
+	projectexperience_performance projectExperiencePerformance,
+	projectexperience_connect projectExperienceConnect,
+	projectexperience_beforetime projectExperienceBeforeTime,
+	certificate_name certificateName
+		</sql>
+    <select id="findResumeByUserNameAndPassword" resultType="com.boss.pojo.Resume">
+    SELECT
+	<include refid="resume"/>
+FROM
+	`tb_user`
+	user INNER JOIN tb_user_resume AS ur ON ur.user_id = user.user_id
+	INNER JOIN tb_resume as resume on resume.resume_id=ur.resume_id
+	INNER JOIN tb_resume_company as rc on rc.resume_id=resume.resume_id
+	INNER JOIN tb_company as company on company.company_id=rc.company_id
+	INNER JOIN tb_resume_secondjob as rs on rs.resume_id =resume.resume_id
+	INNER JOIN tb_jobtabelsecond as jobsecond on jobsecond.jobtable_sid=rs.secondjob_id
+	INNER JOIN tb_resumeeducation as education on education.resumeeducation_id=resume.resume_education_id
+	INNER JOIN tb_intention as intention on intention.intention_id=resume.resume_intention_id
+	INNER JOIN tb_workexperience as workexperience on workexperience.workexperience_id=resume.resume_work_id
+	INNER JOIN tb_projectexperience as projectexperience on projectexperience.projectexperience_id=resume.resume_item_id
+    INNER JOIN tb_certificate AS ceritficate ON ceritficate.certificate_id = resume.resume_certificate_id
+	WHERE user.username=#{username} AND user.`password`=#{password}
+  </select>
+<update id="updateResume">
+UPDATE `tb_user`
+USER INNER JOIN tb_user_resume AS ur ON ur.user_id = USER.user_id
+INNER JOIN tb_resume AS resume ON resume.resume_id = ur.resume_id
+INNER JOIN tb_resume_company AS rc ON rc.resume_id = resume.resume_id
+INNER JOIN tb_company AS company ON company.company_id = rc.company_id
+INNER JOIN tb_resume_secondjob AS rs ON rs.resume_id = resume.resume_id
+INNER JOIN tb_jobtabelsecond AS jobsecond ON jobsecond.jobtable_sid = rs.secondjob_id
+INNER JOIN tb_resumeeducation AS education ON education.resumeeducation_id = resume.resume_education_id
+INNER JOIN tb_intention AS intention ON intention.intention_id = resume.resume_intention_id
+INNER JOIN tb_workexperience AS workexperience ON workexperience.workexperience_id = resume.resume_work_id
+INNER JOIN tb_user_projectexperience AS upr ON upr.user_id = USER.user_id
+INNER JOIN tb_projectexperience AS projectexperience ON projectexperience.projectexperience_id = upr.projectexperience_id
+INNER JOIN tb_certificate AS ceritficate ON ceritficate.certificate_id = resume.resume_certificate_id
+SET workexperience.workexperience_industry  = #{workExperienceIndustry},
+workexperience.workexperience_department  = #{workExperienceDepartment},
+workexperience_workingtimebegin  = #{workexperienceWorkingtimebegin},
+workexperience.workexperience_workingtimeend = #{workexperienceWorkingtimeend},
+workexperience.workexperience_type  = #{workexperienceType},
+workexperience.workexperience_content  = #{workexperienceContent},
+workexperience.workexperience_performance  = #{workexperiencePerformance},
+workexperience_company  = #{workexperienceCompany},
+intention.intention_status  = #{intentionStatus},
+intention.intention_position  = #{intentionPosition},
+intention.intention_city = #{intentionCity},
+intention.intention_business  = #{intentionBusiness},
+intention.intention_personally  = #{intentionPersonally},
+USER.user_email   = #{userEmail},
+USER.user_sex   = #{userSex},
+USER.user_identity   = #{userIdentity},
+USER.user_avatar  = #{userAvatar},
+USER.user_address  = #{userAddress},
+USER.user_tel  = #{userTel},
+USER.user_create_time  = #{createTime},
+education.resumeeducation_school  = #{educationSchool},
+education.resumeeducation_background  = #{educationBackground},
+education.resumeeducation_major  = #{educationMajor},
+education.resumeeducation_lasttime  = #{educationLasttime},
+education.resumeeducation_experience  = #{educationExperience},
+education.resumeeducation_beforetime  = #{educationBeforetiome},
+projectexperience.projectexperience_name  = #{experienceName},
+projectexperience.projectexperience_role  = #{experienceRole},
+projectexperience.projectexperience_lasttime  = #{lasttime},
+projectexperience.projectexperience_describe  = #{describe},
+projectexperience.projectexperience_performance  =#{performance},
+projectexperience.projectexperience_connect  =#{connect},
+projectexperience.projectexperience_beforetime  = #{beforetime},
+ceritficate.certificate_name  =#{certificateName}
+WHERE
+	USER.username = #{username}
+	AND USER.PASSWORD = #{password}
+</update>
+</mapper>
